@@ -1,0 +1,22 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    color: $color-white;
+    display: flex;
+    background-color: $primary-color;
+  
+
+  &__left {
+    width: 70%;
+    padding: 20px;
+  }
+
+  &__right {
+    position: relative;
+    width: 30%;
+    min-height: 100%;
+    padding: 20px 0;
+  }
+}
