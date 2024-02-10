@@ -21,17 +21,12 @@
       document.getElementById('authorize_button').style.visibility = 'hidden';
       document.getElementById('signout_button').style.visibility = 'hidden';
 
-      /**
-       * Callback after api.js is loaded.
-       */
+     
       function gapiLoaded() {
         gapi.load('client', initializeGapiClient);
       }
 
-      /**
-       * Callback after the API client is loaded. Loads the
-       * discovery doc to initialize the API.
-       */
+    
       async function initializeGapiClient() {
         await gapi.client.init({
           apiKey: API_KEY,
@@ -41,32 +36,24 @@
         maybeEnableButtons();
       }
 
-      /**
-       * Callback after Google Identity Services are loaded.
-       */
       function gisLoaded() {
         tokenClient = google.accounts.oauth2.initTokenClient({
           client_id: CLIENT_ID,
           scope: SCOPES,
-          callback: '', // defined later
+          callback: '', 
         });
         gisInited = true;
         maybeEnableButtons();
         console.log(SCOPES);
       }
 
-      /**
-       * Enables user interaction after all libraries are loaded.
-       */
+ 
       function maybeEnableButtons() {
         if (gapiInited && gisInited) {
           document.getElementById('authorize_button').style.visibility = 'visible';
         }
       }
 
-      /**
-       *  Sign in the user upon button click.
-       */
       function handleAuthClick() {
         tokenClient.callback = async (resp) => {
           if (resp.error !== undefined) {
@@ -87,9 +74,7 @@
         }
       }
 
-      /**
-       *  Sign out the user upon button click.
-       */
+
       function handleSignoutClick() {
         const token = gapi.client.getToken();
         if (token !== null) {
@@ -101,11 +86,7 @@
         }
       }
 
-      /**
-       * Print the summary and start datetime/date of the next ten events in
-       * the authorized user's calendar. If no events are found an
-       * appropriate message is printed.
-       */
+      //Print the summary 
       async function listUpcomingEvents() {
         let response;
         try {
