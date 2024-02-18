@@ -3,9 +3,13 @@ const date = document.querySelector(".date");
 const daysContainer = document.querySelector(".days");
 const prev = document.querySelector(".prev");
 const next = document.querySelector(".next");
+const prevDayBtn = document.querySelector(".prev__day");
+const nextDayBtn = document.querySelector(".next__day");
 const todayBtn = document.querySelector(".date__btn--today");
 const gotoBtn = document.querySelector(".date__btn");
 const dateInput = document.querySelector(".date__input");
+const dateDay = document.querySelector(".date__day");
+
 
 
 let today = new Date();
@@ -46,29 +50,27 @@ function initCalendar() {
   let days = "";
 
   //previous month days
-  for (let x = day; x > 0; x--) {
-    days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
+for (let x = day; x > 0; x--) {
+  days += `<div class="day prev-date" data-day="${prevDays - x + 1}">${prevDays - x + 1}</div>`;
+}
+
+//actual month days
+for (let i = 1; i <= lastDate; i++) {
+  if (
+    i === new Date().getDate() &&
+    year === new Date().getFullYear() &&
+    month === new Date().getMonth()
+  ) {
+    days += `<div class="day today" data-day="${i}">${i}</div>`;
+  } else {
+    days += `<div class="day" data-day="${i}">${i}</div>`;
   }
+}
 
-  //actual month days
-  for (let i = 1; i <= lastDate; i++) {
-
-    if (
-      i === new Date().getDate() &&
-      year === new Date().getFullYear() &&
-      month === new Date().getMonth()
-    ) {
-      days += `<div class="day today">${i}</div>`;
-    } else {
-      days += `<div class="day">${i}</div>`;
-    }
-  }
-
-
-    //next month days
-  for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="day next-date">${j}</div>`;
-  }
+//next month days
+for (let j = 1; j <= nextDays; j++) {
+  days += `<div class="day next-date" data-day="${j}">${j}</div>`;
+}
   daysContainer.innerHTML = days;
   addListner();
 }
@@ -104,7 +106,11 @@ function addListner() {
   days.forEach((day) => {
     day.addEventListener("click", (e) => {
       getActiveDay(e.target.innerHTML);
-      activeDay = Number(e.target.innerHTML);
+      // Wewnątrz obsługi kliknięcia na dzień:
+    activeDay = Number(e.target.getAttribute('data-day'));
+
+      const clickedDate = `${e.target.innerHTML} ${months[month]} ${year}`;
+      dateDay.textContent = clickedDate;
 
 //remove active
 
@@ -199,3 +205,30 @@ function getActiveDay(date) {
   const day = new Date(year, month, date);
   const dayName = day.toString().split(" ")[0];
 }
+
+//change days in day calendar
+
+function changeDay(step) {
+  let selectedDate = activeDay ? new Date(year, month, activeDay) : new Date();
+  selectedDate.setDate(selectedDate.getDate() + step);
+  
+  today = selectedDate;
+  activeDay = selectedDate.getDate();
+  month = selectedDate.getMonth();
+  year = selectedDate.getFullYear();
+
+  initCalendar();
+  highlightDay();
+}
+
+function highlightDay() {
+  document.querySelectorAll(".day").forEach(day => day.classList.remove("active"));
+  const dayToHighlight = document.querySelector(`.day[data-day="${activeDay}"]`);
+  if(dayToHighlight) {
+    dayToHighlight.classList.add("active");
+    dateDay.textContent = `${activeDay} ${months[month]}`;
+  }
+}
+
+prevDayBtn.addEventListener("click", () => changeDay(-1));
+nextDayBtn.addEventListener("click", () => changeDay(1));
