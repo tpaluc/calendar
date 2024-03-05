@@ -1,3 +1,5 @@
+// import * as calendarAPI from './calendarAPI.js';
+
 const calendar = document.querySelector(".calendar");
 const date = document.querySelector(".date");
 const daysContainer = document.querySelector(".days");
@@ -9,6 +11,7 @@ const todayBtn = document.querySelector(".date__btn--today");
 const gotoBtn = document.querySelector(".date__btn");
 const dateInput = document.querySelector(".date__input");
 const dateDay = document.querySelector(".date__day");
+const addEventBtn = document.querySelector(".addEventBtn");
 
 
 
@@ -31,7 +34,6 @@ const months = [
   "Listopad",
   "Grudzień",
 ];
-
 
 //function to add days 
 function initCalendar() {
@@ -61,9 +63,13 @@ for (let i = 1; i <= lastDate; i++) {
     year === new Date().getFullYear() &&
     month === new Date().getMonth()
   ) {
-    days += `<div class="day today" data-day="${i}">${i}</div>`;
+    days += `<div class="day today" data-day="${i}">${i}
+    <div class="simpleEvent">10-11 Alergolog</div>
+    </div>`;
   } else {
-    days += `<div class="day" data-day="${i}">${i}</div>`;
+    days += `<div class="day" data-day="${i}">${i}
+    <div class="simpleEvent">10-11 Alergolog</div>
+    </div>`;
   }
 }
 
@@ -125,7 +131,6 @@ function addListner() {
 
 //add active to clicked day afte month is change
 
-        setTimeout(() => {
 
           const days = document.querySelectorAll(".day");
           days.forEach((day) => {
@@ -136,14 +141,12 @@ function addListner() {
               day.classList.add("active");
             }
           });
-        }, 100);
       } else if (e.target.classList.contains("next-date")) {
         nextMonth();
 
         
 //add active to clicked day afte month is changed
 
-        setTimeout(() => {
           const days = document.querySelectorAll(".day");
           days.forEach((day) => {
             if (
@@ -153,7 +156,6 @@ function addListner() {
               day.classList.add("active");
             }
           });
-        }, 100);
       } else {
         e.target.classList.add("active");
       }
@@ -232,3 +234,7 @@ function highlightDay() {
 
 prevDayBtn.addEventListener("click", () => changeDay(-1));
 nextDayBtn.addEventListener("click", () => changeDay(1));
+
+addEventBtn.addEventListener("click", () => {
+  console.log("add event");
+});

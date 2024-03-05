@@ -66,16 +66,20 @@
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 20px;
+    
   }
 .day {
     width: 14.28%;
     height: 90px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-top: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
     cursor: pointer;
     color: $color-black;
     border: 1px solid $color-light-gray;
+
   
         &:nth-child(7n + 1) {
             border-left: 2px solid $color-light-gray;
@@ -172,6 +176,14 @@
             }
         }
     }
+}
+
+.simpleEvent {
+    background-color: $primary-color;
+    color: $color-white;
+    padding: 5px 10px;
+    margin-top: 5px;
+    border-radius: 1.25rem;
 }
  
 
